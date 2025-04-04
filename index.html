@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pool Bet Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Pool Bet Game</h1>
+
+    <div id="join-game">
+        <input type="text" id="player-name" placeholder="Enter your name">
+        <button onclick="joinGame()">Join Game</button>
+    </div>
+
+    <div id="game-area" style="display: none;">
+        <h2>Game Controls</h2>
+        <button onclick="pickNumber()">Pick Number</button>
+        <button onclick="eliminated()">I am Eliminated</button>
+        <button onclick="wonRound()">I Won</button>
+        <p id="your-number" style="display: none;"></p>
+
+        <h2>Scoreboard</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="scoreboard">
+            </tbody>
+        </table>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAwyHSiTUPPOmZ9V8offHqJ4IN5WdzB-Wo",
+            authDomain: "roleta---apolo.firebaseapp.com",
+            databaseURL: "https://roleta---apolo-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "roleta---apolo",
+            storageBucket: "roleta---apolo.firebasestorage.app",
+            messagingSenderId: "955205002496",
+            appId: "1:955205002496:web:2a099654d37ab72d74bfe5",
+            measurementId: "G-KTDBVF05ZK"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.firebase = { db, ref, set, push, onValue }; // חשוף את Firebase לסקריפט
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
