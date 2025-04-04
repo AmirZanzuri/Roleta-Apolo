@@ -24,6 +24,7 @@ let roundsPlayed = 0;
 let pointsPerRound = 10;
 let isPickingNumber = false; // Flag to prevent concurrent pickNumber calls
 const maxAvailableNumber = 15; // Set the maximum available number
+const LOCAL_STORAGE_PLAYER_ID_KEY = 'roletaApoloPlayerId';
 
 // Update UI elements
 function updateUI() {
@@ -58,6 +59,21 @@ function updateUI() {
     }
 }
 
+// Function to create a new player in Firebase and store their ID locally
+function createNewPlayer(nameInput, joinGameDiv, gameAreaDiv) {
+    playerName = nameInput.value.trim();
+    playerId = Math.random().toString(36).substr(2, 9);
+    players[playerId] = { name: playerName, score: 0, number: null, roundsWon: 0 };
+
+    set(ref(db, `players/${playerId}`), players[playerId]);
+    localStorage.setItem(LOCAL_STORAGE_PLAYER_ID_KEY, playerId); // Store the ID
+
+    if (joinGameDiv) joinGameDiv.style.display = "none";
+    if (gameAreaDiv) gameAreaDiv.style.display = "block";
+    updateUI();
+    console.log("New player joined:", playerName, playerId);
+}
+
 // Join game function
 function joinGame() {
     const nameInput = document.getElementById("player-name");
@@ -67,48 +83,32 @@ function joinGame() {
     playerName = nameInput.value.trim();
     if (!playerName) return alert("Please enter your name");
 
-    playerId = Math.random().toString(36).substr(2, 9);
-    players[playerId] = { name: playerName, score: 0, number: null, roundsWon: 0 };
+    let storedPlayerId = localStorage.getItem(LOCAL_STORAGE_PLAYER_ID_KEY);
 
-    set(ref(db, `players/${playerId}`), players[playerId]);
-
-    if (joinGameDiv) joinGameDiv.style.display = "none";
-    if (gameAreaDiv) gameAreaDiv.style.display = "block";
-
-    updateUI(); // Call updateUI after joining to reflect admin status
-
-    onValue(ref(db, 'players/'), (snapshot) => {
-        players = snapshot.val() || {};
-        updateScoreboard();
-        updateUI(); // Update UI in case admin status changes due to player list update
-    });
-
-    onValue(ref(db, 'gameState/'), (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            roundActive = data.roundActive !== undefined ? data.roundActive : true; // Default to true if not set
-            roundsPlayed = data.roundsPlayed || 0;
-            updateUI();
-        }
-    });
-
-    onValue(ref(db, 'gameState/currentNumbers'), (snapshot) => {
-        const numbers = snapshot.val() || [];
-        currentNumbers = new Set(numbers);
-    });
-
-    onValue(ref(db, 'gameState/pointsPerRound'), (snapshot) => {
-        pointsPerRound = snapshot.val() || 10;
-    });
-
-    // Set round to active if it's not explicitly set
-    get(ref(db, 'gameState/roundActive')).then((snapshot) => {
-        if (snapshot.val() === null || snapshot.val() === undefined) {
-            update(ref(db, 'gameState/'), {
-                roundActive: true
-            });
-        }
-    });
+    if (storedPlayerId) {
+        // Check if this playerId exists in Firebase
+        get(ref(db, `players/${storedPlayerId}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                // Existing user, update their name (if changed) and reuse ID
+                playerId = storedPlayerId;
+                update(ref(db, `players/${playerId}`), { name: playerName });
+                players[playerId] = snapshot.val(); // Update local players object
+                if (joinGameDiv) joinGameDiv.style.display = "none";
+                if (gameAreaDiv) gameAreaDiv.style.display = "block";
+                updateUI();
+                console.log("Re-logged in as existing player:", playerName, playerId);
+            } else {
+                // Stored ID not found in Firebase, treat as new user
+                createNewPlayer(nameInput, joinGameDiv, gameAreaDiv);
+            }
+        }).catch((error) => {
+            console.error("Error checking for existing player:", error);
+            createNewPlayer(nameInput, joinGameDiv, gameAreaDiv); // Treat as new user on error
+        });
+    } else {
+        // No stored ID, treat as new user
+        createNewPlayer(nameInput, joinGameDiv, gameAreaDiv);
+    }
 }
 
 // Update scoreboard function
