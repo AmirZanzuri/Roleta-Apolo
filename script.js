@@ -3,7 +3,7 @@ let players = {};
 let currentNumbers = new Set();
 let playerId = null;
 
-const dbRef = ref(db, 'game/'); // Use ref() directly instead of firebase.ref()
+const dbRef = ref(db, 'game/');  // Use ref() directly
 
 // Join game function
 function joinGame() {
@@ -15,7 +15,7 @@ function joinGame() {
     players[playerId] = { name: playerName, score: 0, number: null };
     
     // Save player to Firebase
-    set(ref(db, `players/${playerId}`), players[playerId]); // Use set() directly instead of firebase.set()
+    set(ref(db, `players/${playerId}`), players[playerId]); // Use set() directly
     
     document.getElementById("join-game").style.display = "none";
     document.getElementById("game-area").style.display = "block";
