@@ -3,7 +3,7 @@ let players = {};
 let currentNumbers = new Set();
 let playerId = null;
 
-const dbRef = firebase.ref(firebase.db, 'game/');
+const dbRef = ref(db, 'game/'); // Use ref() directly instead of firebase.ref()
 
 // Join game function
 function joinGame() {
@@ -15,7 +15,7 @@ function joinGame() {
     players[playerId] = { name: playerName, score: 0, number: null };
     
     // Save player to Firebase
-    firebase.set(firebase.ref(dbRef, `players/${playerId}`), players[playerId]);
+    set(ref(db, `players/${playerId}`), players[playerId]); // Use set() directly instead of firebase.set()
     
     document.getElementById("join-game").style.display = "none";
     document.getElementById("game-area").style.display = "block";
@@ -35,7 +35,7 @@ function pickNumber() {
     players[playerId].number = number;
     
     // Save number to Firebase
-    firebase.set(firebase.ref(dbRef, `players/${playerId}/number`), number);
+    set(ref(db, `players/${playerId}/number`), number); // Use set() directly
     document.getElementById("your-number").innerText = `Your Number: ${number}`;
     document.getElementById("your-number").style.display = "block";
 }
@@ -48,7 +48,7 @@ function eliminated() {
     players[playerId].number = null;
     
     // Remove eliminated player from Firebase
-    firebase.set(firebase.ref(dbRef, `players/${playerId}/number`), null);
+    set(ref(db, `players/${playerId}/number`), null); // Use set() directly
 }
 
 // Won round function
@@ -61,7 +61,7 @@ function wonRound() {
     players[playerId].score += totalPoints;
     
     // Save updated score to Firebase
-    firebase.set(firebase.ref(dbRef, `players/${playerId}/score`), players[playerId].score);
+    set(ref(db, `players/${playerId}/score`), players[playerId].score); // Use set() directly
     
     // Reset for next round
     currentNumbers.clear();
@@ -75,7 +75,7 @@ function updateScoreboard() {
     scoreboard.innerHTML = "";
     
     // Get players from Firebase and update scoreboard
-    firebase.onValue(firebase.ref(dbRef, 'players/'), (snapshot) => {
+    onValue(ref(db, 'players/'), (snapshot) => { // Use onValue() directly
         const data = snapshot.val();
         Object.values(data).forEach(player => {
             const row = document.createElement("tr");
