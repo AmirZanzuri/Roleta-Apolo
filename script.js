@@ -55,6 +55,26 @@ function pickNumber() {
     set(ref(db, `players/${playerId}/number`), number);
     document.getElementById("your-number").innerText = `Your Number: ${number}`;
     document.getElementById("your-number").style.display = "block";
+
+    // Check if all players have picked their numbers
+    checkAllPlayersPicked();
+}
+
+// Check if all players have picked a number
+function checkAllPlayersPicked() {
+    const allPicked = Object.values(players).every(player => player.number !== null);
+
+    if (allPicked) {
+        // Start round if all players picked a number
+        startRound();
+    }
+}
+
+// Start the round
+function startRound() {
+    alert("The round has started!");
+    // You can trigger any additional logic for starting the round here.
+    // For example, resetting some game state, notifying players, etc.
 }
 
 // Eliminated function
