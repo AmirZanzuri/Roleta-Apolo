@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pool Bet Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <h1>Pool Bet Game</h1>
 
@@ -18,10 +16,21 @@
 
     <div id="game-area" style="display: none;">
         <h2>Game Controls</h2>
-        <button onclick="pickNumber()">Pick Number</button>
+        <button id="pick-number" onclick="pickNumber()">Pick Number</button>
         <button onclick="eliminated()">I am Eliminated</button>
         <button onclick="wonRound()">I Won</button>
         <p id="your-number" style="display: none;"></p>
+
+        <h3>Game Status</h3>
+        <p>Rounds Played: <span id="rounds-played">0</span></p>
+        <p>Round Status: <span id="round-status">Not Active</span></p>
+
+        <div id="admin-controls" style="display: none;">
+            <h3>Admin Controls (Amir Z)</h3>
+            <label for="points-per-round">Points per Round:</label>
+            <input type="number" id="points-per-round" value="10" min="1">
+            <button onclick="updatePointsPerRound()">Set Points</button>
+        </div>
 
         <h2>Scoreboard</h2>
         <table border="1">
@@ -29,16 +38,18 @@
                 <tr>
                     <th>Player</th>
                     <th>Score</th>
+                    <th>Rounds Won</th>
+                    <th id="admin-actions" style="display: none;">Actions</th>
                 </tr>
             </thead>
-            <tbody id="scoreboard">
-            </tbody>
+            <tbody id="scoreboard"></tbody>
         </table>
+
+        <button id="reset-game" style="display: none;" onclick="resetGame()">Reset Game</button>
     </div>
 
     <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
     <script type="module" src="script.js"></script>
 </body>
-
 </html>

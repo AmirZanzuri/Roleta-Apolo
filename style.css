@@ -171,22 +171,6 @@ tr:last-child td {
     }
 }
 
-/* Animation for Number Display */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#your-number {
-    animation: fadeIn 0.3s ease-out;
-}
-
 /* Active Player Highlight */
 tr.active-player {
     background-color: #f0f9ff;
