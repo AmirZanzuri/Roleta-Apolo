@@ -1,0 +1,200 @@
+/* Modern CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Custom Properties */
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #64748b;
+    --background: #f1f5f9;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --radius: 12px;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+  
+  /* Base Styles */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 1rem;
+    min-height: 100vh;
+  }
+  
+  /* Typography */
+  h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    font-weight: 800;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem;
+    color: var(--secondary);
+  }
+  
+  /* Layout */
+  #join-game, #game-area {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  
+  /* Form Elements */
+  input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  
+  /* Buttons */
+  button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  button:active {
+    transform: translateY(1px);
+  }
+  
+  /* Game Controls */
+  #game-area button {
+    margin-bottom: 0.75rem;
+  }
+  
+  #game-area button:nth-child(2) {
+    background-color: var(--danger);
+  }
+  
+  #game-area button:nth-child(3) {
+    background-color: var(--success);
+  }
+  
+  /* Your Number Display */
+  #your-number {
+    background-color: var(--primary);
+    color: white;
+    padding: 1rem;
+    border-radius: var(--radius);
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1rem 0;
+  }
+  
+  /* Scoreboard */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: var(--secondary);
+  }
+  
+  tr:last-child td {
+    border-bottom: none;
+  }
+  
+  /* Mobile Optimizations */
+  @media (max-width: 640px) {
+    body {
+      padding: 0.5rem;
+    }
+  
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    #join-game, #game-area {
+      padding: 1.5rem;
+      border-radius: var(--radius);
+    }
+  
+    button {
+      padding: 0.875rem 1rem;
+    }
+  
+    th, td {
+      padding: 0.75rem;
+      font-size: 0.875rem;
+    }
+  }
+  
+  /* Animation for Number Display */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  #your-number {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* Active Player Highlight */
+  tr.active-player {
+    background-color: #f0f9ff;
+  }
+  
+  /* Loading State */
+  button:disabled {
+    background-color: var(--secondary);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
