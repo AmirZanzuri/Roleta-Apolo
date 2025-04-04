@@ -35,28 +35,10 @@
             </tbody>
         </table>
     </div>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAwyHSiTUPPOmZ9V8offHqJ4IN5WdzB-Wo",
-            authDomain: "roleta---apolo.firebaseapp.com",
-            databaseURL: "https://roleta---apolo-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "roleta---apolo",
-            storageBucket: "roleta---apolo.firebasestorage.app",
-            messagingSenderId: "955205002496",
-            appId: "1:955205002496:web:2a099654d37ab72d74bfe5",
-            measurementId: "G-KTDBVF05ZK"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        window.firebase = { db, ref, set, push, onValue }; // חשוף את Firebase לסקריפט
-    </script>
-
-    <script src="script.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
